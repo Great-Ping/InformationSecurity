@@ -1,0 +1,9 @@
+#Файлы idea
+.vs
+.idea
+
+#Файлы сборки
+bin
+obj
+
+*.DotSettings.user
