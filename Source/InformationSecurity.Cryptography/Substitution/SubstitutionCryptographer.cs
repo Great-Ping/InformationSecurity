@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace InformationSecurity.Cryptography;
@@ -8,13 +9,13 @@ namespace InformationSecurity.Cryptography;
 /// <summary>
 /// Лаба 1 V = {0,1,2,3,4} m = 2
 /// </summary>
-public class SubstitutionCryptographer: ICryptographer
+public class SubstitutionCryptographer : ICryptographer
 {
     private readonly string[] _ciphers;
     private readonly string[] _deciphers;
     private readonly string _alphabet;
     private readonly int _blockSize;
-    
+
     public SubstitutionCryptographer(string alphabet, int blockSize)
     {
         _alphabet = alphabet;
@@ -23,11 +24,11 @@ public class SubstitutionCryptographer: ICryptographer
         _deciphers = SubstitutionHelper.GenerateDeciphers(alphabet.AsSpan(), blockSize, _ciphers);
     }
 
-    public ReadOnlySpan<char> Encrypt(ReadOnlySpan<char> message) 
+    public ReadOnlySpan<char> Encrypt(ReadOnlySpan<char> message)
     {
         return Process(message, _ciphers);
     }
-   
+
 
     public ReadOnlySpan<char> Decrypt(ReadOnlySpan<char> encrypted)
     {
@@ -71,6 +72,6 @@ public class SubstitutionCryptographer: ICryptographer
 
     public override string ToString()
     {
-        return "SubstitutionCryptographer( V = {0,1,2,3,4} m = 2)";
+        return $"SubstitutionCryptographer(Alphabet = {_alphabet}, BlockSize={_blockSize})";
     }
 }

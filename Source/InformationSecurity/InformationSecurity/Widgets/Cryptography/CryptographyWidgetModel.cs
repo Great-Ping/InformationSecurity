@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using InformationSecurity.Cryptography;
@@ -10,14 +11,15 @@ namespace InformationSecurity.Widgets.Cryptography;
 public class CryptographyWidgetModel: ViewModelBase
 {
     private string _userInput;
+    private string? _exception;
     private ICryptographer _cryptographer;
     
     public CryptographyWidgetModel() {
         HeaderText = "Let's encrypt";
-        InputWatermark= "Введите сообщение\nV={0,1,2,3,4}\nm=2 |V|=5 |V|^m=25";
+        _cryptographer = new SubstitutionCryptographer("01", 5);
+        InputWatermark= $"Введите сообщение\n{_cryptographer}";
         
         _userInput = String.Empty;  
-        _cryptographer = new SubstitutionCryptographer("01234", 2);
             
         EncryptCommand = ReactiveCommand.Create(OnEncrypt); 
         DecryptCommand = ReactiveCommand.Create(OnDecrypt);
@@ -25,6 +27,11 @@ public class CryptographyWidgetModel: ViewModelBase
 
     public string HeaderText { get; } 
     public string InputWatermark { get; }
+    public string? Exception
+    {
+        get => _exception;
+        set => this.RaiseAndSetIfChanged(ref _exception, value);
+    }
 
     public string UserInput
     {
@@ -37,15 +44,31 @@ public class CryptographyWidgetModel: ViewModelBase
     
     private Task OnEncrypt()
     {
-        ReadOnlySpan<char> encrypted = _cryptographer.Encrypt(UserInput);
-        UserInput = new string(encrypted);
+        try
+        {
+            ReadOnlySpan<char> encrypted = _cryptographer.Encrypt(UserInput);
+            UserInput = new string(encrypted);
+            Exception = null;
+        }
+        catch (Exception ex)
+        {
+            Exception = ex.Message;   
+        }
         return Task.CompletedTask;
     }
     
     private Task OnDecrypt()
     {
-        ReadOnlySpan<char> encrypted = _cryptographer.Decrypt(UserInput);
-        UserInput = new string(encrypted);
+        try
+        {
+            ReadOnlySpan<char> encrypted = _cryptographer.Decrypt(UserInput);
+            UserInput = new string(encrypted);
+            Exception = null;
+        }
+        catch (Exception ex)
+        {
+            Exception = ex.Message;
+        }
         return Task.CompletedTask;
     }
 }

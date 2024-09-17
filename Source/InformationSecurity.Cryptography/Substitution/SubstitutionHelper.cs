@@ -45,7 +45,7 @@ public static class SubstitutionHelper
             int index = alphabet.IndexOf(block[i]);
             if (index == -1)
             {
-                throw new ArgumentException("Invalid symbol");
+                throw new ArgumentException($"Symbol '{block[i]}' does not belong to alphabet");
             }
             
             result += index * PowInt(alphabet.Length,  i);
