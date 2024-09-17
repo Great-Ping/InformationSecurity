@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using InformationSecurity.Cryptography;
+using InformationSecurity.Cryptography.Permutation;
 using InformationSecurity.Shared;
 using ReactiveUI;
 
@@ -16,7 +17,8 @@ public class CryptographyWidgetModel: ViewModelBase
     
     public CryptographyWidgetModel() {
         HeaderText = "Let's encrypt";
-        _cryptographer = new SubstitutionCryptographer("01", 5);
+        //_cryptographer = new SubstitutionCryptographer("01234", 2);
+        _cryptographer = new PermutationCryptographer([0, 5, 2, 3, 4, 1]);
         InputWatermark= $"Введите сообщение\n{_cryptographer}";
         
         _userInput = String.Empty;  

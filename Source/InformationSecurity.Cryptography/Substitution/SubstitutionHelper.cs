@@ -69,7 +69,7 @@ public static class SubstitutionHelper
 
             if (blockValue > 0)
             {
-                throw new ArgumentException("Invalid block value");
+                throw new ArgumentException($"Invalid block value");
             }
             
             return new string(convertedBlock);
