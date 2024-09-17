@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using InformationSecurity.Cryptography;
 using InformationSecurity.Shared;
 using ReactiveUI;
 
@@ -9,12 +10,15 @@ namespace InformationSecurity.Widgets.Cryptography;
 public class CryptographyWidgetModel: ViewModelBase
 {
     private string _userInput;
+    private ICryptographer _cryptographer;
     
     public CryptographyWidgetModel() {
         HeaderText = "Let's encrypt";
-        InputWatermark= "Введите сообщение";
-        _userInput = String.Empty;
+        InputWatermark= "Введите сообщение\nV={0,1,2,3,4}\nm=2 |V|=5 |V|^m=25";
         
+        _userInput = String.Empty;  
+        _cryptographer = new SubstitutionCryptographer("01234", 2);
+            
         EncryptCommand = ReactiveCommand.Create(OnEncrypt); 
         DecryptCommand = ReactiveCommand.Create(OnDecrypt);
     }
@@ -33,13 +37,15 @@ public class CryptographyWidgetModel: ViewModelBase
     
     private Task OnEncrypt()
     {
-        UserInput = "Encrypted";
+        ReadOnlySpan<char> encrypted = _cryptographer.Encrypt(UserInput);
+        UserInput = new string(encrypted);
         return Task.CompletedTask;
     }
     
     private Task OnDecrypt()
     {
-        UserInput = "Decrypted";
+        ReadOnlySpan<char> encrypted = _cryptographer.Decrypt(UserInput);
+        UserInput = new string(encrypted);
         return Task.CompletedTask;
     }
 }
