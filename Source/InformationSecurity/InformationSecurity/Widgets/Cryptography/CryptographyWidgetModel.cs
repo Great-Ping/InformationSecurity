@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -37,10 +38,10 @@ public class CryptographyWidgetModel: ViewModelBase
 
     public string UserInput
     {
-        get => _userInput; 
+        get => _userInput;
         set => this.RaiseAndSetIfChanged(ref _userInput, value);
     }
-    
+
     public ICommand EncryptCommand { get; }
     public ICommand DecryptCommand { get; }
     
