@@ -13,18 +13,18 @@ public class PermutationCryptographer : ICryptographer
         _reversedPermutations = PermutationHelper.GenerateReversedPermutations(_permutations);
     }
 
-    public Span<char> Encrypt(ReadOnlySpan<char> message)
+    public char[] Encrypt(ReadOnlySpan<char> message)
     {
         return Process(message, _permutations);
     }
 
-    public Span<char> Decrypt(ReadOnlySpan<char> encrypted)
+    public char[] Decrypt(ReadOnlySpan<char> encrypted)
     {
         return Process(encrypted, _reversedPermutations);
     }
 
 
-    private Span<char> Process(ReadOnlySpan<char>  message, int[] permutations)
+    private char[] Process(ReadOnlySpan<char>  message, int[] permutations)
     {
         int blockSize = permutations.Length;
 
@@ -48,7 +48,7 @@ public class PermutationCryptographer : ICryptographer
             }
         }
 
-        return result.AsSpan();
+        return result;
     }
 
     public override string ToString()

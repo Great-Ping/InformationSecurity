@@ -1,8 +1,11 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
+using System.Reflection.Metadata;
 using System.Windows.Input;
 using InformationSecurity.Cryptography;
+using InformationSecurity.Cryptography.Gamma;
 using InformationSecurity.Cryptography.Permutation;
 using InformationSecurity.Shared;
 using InformationSecurity.Widgets.Cryptography;
@@ -23,6 +26,16 @@ public class PaginationWidgetModel : ViewModelBase
             ), 
             new CryptographyWidgetModel( 
                 new PermutationCryptographer([0, 5, 4, 3, 2, 1])
+            ),
+            new CryptographyWidgetModel( 
+                new GammaCryptographer(
+                    new NumbersGeneratorConfig(
+                        ConstantA: 13,
+                        ConstantC: 43,
+                        InitialT: 37,
+                        WordLen: Char.MaxValue
+                    )
+                )
             )
         ];
         PageIndexes = new ObservableCollection<int>(Enumerable.Range(1, Pages.Length));
@@ -72,7 +85,7 @@ public class PaginationWidgetModel : ViewModelBase
     {
         int currentIndex = PageIndex;
         
-        if (currentIndex < 0)
+        if (currentIndex < 1)
             currentIndex = Pages.Length;
         
         PageIndex = (currentIndex - 1) % Pages.Length;

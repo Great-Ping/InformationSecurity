@@ -23,18 +23,18 @@ public class SubstitutionCryptographer : ICryptographer
         _deciphers = SubstitutionHelper.GenerateDeciphers(alphabet.AsSpan(), blockSize, _ciphers);
     }
 
-    public Span<char> Encrypt(ReadOnlySpan<char> message)
+    public char[] Encrypt(ReadOnlySpan<char> message)
     {
         return Process(message, _ciphers);
     }
 
 
-    public Span<char> Decrypt(ReadOnlySpan<char> encrypted)
+    public char[] Decrypt(ReadOnlySpan<char> encrypted)
     {
         return Process(encrypted, _deciphers);
     }
 
-    private Span<char> Process(ReadOnlySpan<char> message, string[] substitution)
+    private char[] Process(ReadOnlySpan<char> message, string[] substitution)
     {
         if (message.Length % _blockSize != 0)
         {
@@ -66,7 +66,7 @@ public class SubstitutionCryptographer : ICryptographer
         }
 
 
-        return encryptedMessage.AsSpan();
+        return encryptedMessage;
     }
 
     public override string ToString()

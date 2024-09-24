@@ -5,6 +5,7 @@ using Avalonia.ReactiveUI;
 using InformationSecurity;
 using InformationSecurity.Application;
 
+
 IServiceCollection serviceCollection = new ServiceCollection();
     serviceCollection.UseCommonServices();
 

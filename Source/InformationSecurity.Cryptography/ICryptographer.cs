@@ -2,6 +2,6 @@ namespace InformationSecurity.Cryptography;
 
 public interface ICryptographer
 {
-    Span<char> Encrypt(ReadOnlySpan<char> message);
-    Span<char> Decrypt(ReadOnlySpan<char> encrypted);
+    char[] Encrypt(ReadOnlySpan<char> message);
+    char[] Decrypt(ReadOnlySpan<char> encrypted);
 }
