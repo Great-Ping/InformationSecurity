@@ -42,4 +42,12 @@
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Shared\Pagination\PaginationView.axaml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Widgets\Pagination\PaginationView.axaml" />
+    </ItemGroup>
 </Project>

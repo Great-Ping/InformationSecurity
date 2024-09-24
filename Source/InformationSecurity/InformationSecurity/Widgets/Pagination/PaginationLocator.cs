@@ -1,17 +1,16 @@
-using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using InformationSecurity.Shared;
+using InformationSecurity.Widgets.Cryptography;
 
-namespace InformationSecurity.Shared.Pagination;
+namespace InformationSecurity.Widgets.Pagination;
 
 public class PaginationLocator : IDataTemplate
 {
+
     public Control? Build(object? data)
-    {
-        if (data == null)
-            return null;
-        //Activator.CreateInstance();
-        return new Control();
+    {   
+        return new CryptographyWidget();
     }
 
     public bool Match(object? data)

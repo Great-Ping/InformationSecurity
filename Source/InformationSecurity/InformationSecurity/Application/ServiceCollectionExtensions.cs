@@ -10,9 +10,6 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<CryptographyPageModel>();
-
-        services.AddScoped<CryptographyWidgetModel>();
-        
         return services;
     }
 }

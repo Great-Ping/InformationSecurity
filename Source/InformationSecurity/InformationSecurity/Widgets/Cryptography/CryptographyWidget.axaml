@@ -19,7 +19,8 @@
 		<TextBlock 
 			Classes="Header" 
 		    TextAlignment="Center"
-		    Text="{ Binding HeaderText }"/>
+		    Text="{ Binding HeaderText }"
+			/>
 		
 		<TextBox 
 			Classes="UserInput"
@@ -74,7 +75,7 @@
 			<Setter Property="FontWeight" Value="DemiBold"/>
 		</Style>
 	
-		<Style Selector="Button">
+		<Style Selector="StackPanel.Buttons > Button">
 			<Setter Property="FontWeight" Value="DemiBold"></Setter>
 			<Setter Property="Margin" Value="5 0"/>
 		</Style>

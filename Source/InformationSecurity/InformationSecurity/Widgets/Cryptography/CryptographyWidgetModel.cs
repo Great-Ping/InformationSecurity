@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Avalonia.Input;
 using InformationSecurity.Cryptography;
 using InformationSecurity.Cryptography.Permutation;
 using InformationSecurity.Shared;
@@ -14,15 +16,18 @@ public class CryptographyWidgetModel: ViewModelBase
 {
     private string _userInput;
     private string? _exception;
-    private ICryptographer _cryptographer;
+    private readonly ICryptographer _cryptographer;
     
-    public CryptographyWidgetModel() {
+    //_cryptographer = new SubstitutionCryptographer("01234", 2);
+    //_cryptographer = new PermutationCryptographer([0, 5, 2, 3, 4, 1]);
+        
+    public CryptographyWidgetModel(ICryptographer cryptographer) {
+        _cryptographer = cryptographer;
+        _userInput = String.Empty;  
+        
         HeaderText = "Let's encrypt";
-        //_cryptographer = new SubstitutionCryptographer("01234", 2);
-        _cryptographer = new PermutationCryptographer([0, 5, 2, 3, 4, 1]);
         InputWatermark= $"Введите сообщение\n{_cryptographer}";
         
-        _userInput = String.Empty;  
             
         EncryptCommand = ReactiveCommand.Create(OnEncrypt); 
         DecryptCommand = ReactiveCommand.Create(OnDecrypt);

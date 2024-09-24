@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 
 namespace InformationSecurity.Cryptography;
 
-
 /// <summary>
 /// Лаба 1 V = {0,1,2,3,4} m = 2
 /// </summary>
@@ -24,18 +23,18 @@ public class SubstitutionCryptographer : ICryptographer
         _deciphers = SubstitutionHelper.GenerateDeciphers(alphabet.AsSpan(), blockSize, _ciphers);
     }
 
-    public ReadOnlySpan<char> Encrypt(ReadOnlySpan<char> message)
+    public Span<char> Encrypt(ReadOnlySpan<char> message)
     {
         return Process(message, _ciphers);
     }
 
 
-    public ReadOnlySpan<char> Decrypt(ReadOnlySpan<char> encrypted)
+    public Span<char> Decrypt(ReadOnlySpan<char> encrypted)
     {
         return Process(encrypted, _deciphers);
     }
 
-    private ReadOnlySpan<char> Process(ReadOnlySpan<char> message, string[] substitution)
+    private Span<char> Process(ReadOnlySpan<char> message, string[] substitution)
     {
         if (message.Length % _blockSize != 0)
         {
@@ -72,6 +71,6 @@ public class SubstitutionCryptographer : ICryptographer
 
     public override string ToString()
     {
-        return $"SubstitutionCryptographer(Alphabet = {_alphabet}, BlockSize={_blockSize})";
+        return $"SubstitutionCryptographer(Alphabet: {_alphabet}, BlockSize: {_blockSize})";
     }
 }

@@ -1,0 +1,89 @@
+<UserControl 
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+
+	xmlns:wp="using:InformationSecurity.Widgets.Pagination"
+	x:Class="InformationSecurity.Widgets.Pagination.PaginationWidget"
+	x:DataType="wp:PaginationWidgetModel"
+	x:CompileBindings="True">
+
+	<StackPanel>
+		<Grid ColumnDefinitions="Auto, *, Auto">
+			
+			<Button 
+				Grid.Column="0" 
+				Command="{Binding DecrementPageCommand}">
+				Prev
+			</Button>
+			
+			<ListBox 
+				Classes="PageIndexes"
+				SelectionMode="Single"
+				Grid.Column="1"
+				SelectedIndex="{Binding PageIndex, Mode=TwoWay}"
+				ItemsSource="{Binding PageIndexes}">
+
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Orientation="Horizontal"/>
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+				
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<Button 
+							Content="{Binding}"
+							Command="{Binding $parent[ListBox].((wp:PaginationWidgetModel)DataContext).SelectPageCommand}"
+							CommandParameter="{Binding}"
+							/>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+				
+			</ListBox>
+			
+			<Button
+				Grid.Column="2"
+				Command="{Binding IncrementPageCommand}">
+				Next
+			</Button>
+			
+		</Grid>	
+		
+		<ContentControl Content="{Binding SelectedPage}">
+			<ContentControl.ContentTemplate>
+				<wp:PaginationLocator/>
+			</ContentControl.ContentTemplate>
+		</ContentControl>
+		
+	</StackPanel>
+	
+	<UserControl.Styles>
+		<Style Selector="ListBox.PageIndexes">
+			<Setter Property="Background" Value="Transparent"/>
+		</Style>
+		
+		<Style Selector="ListBoxItem">
+			<Setter Property="Padding" Value="0"/>
+			<Setter Property="Margin" Value="5"/>
+		</Style>
+		
+		<Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="BorderBrush" Value="Transparent"></Setter>
+		</Style>
+		
+		<Style Selector="ListBoxItem:selected > Button">
+			<Setter Property="Background" Value="#55ffffff"/>
+		</Style>
+
+		<Style Selector="ListBoxItem:pressed /template/ ContentPresenter">
+			<Setter Property="Background" Value="Transparent" />
+			<Setter Property="BorderBrush" Value="Transparent" />
+		</Style>
+
+	</UserControl.Styles>
+	
+</UserControl>
