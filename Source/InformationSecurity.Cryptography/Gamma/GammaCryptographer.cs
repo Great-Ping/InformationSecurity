@@ -11,7 +11,6 @@ public class GammaCryptographer(
     
     public char[] Encrypt(ReadOnlySpan<char> message)
     {
-
         PseudorandomNumbersGenerator currentGenerator = SelectGenerator();
         ReadOnlySpan<int> numbers = currentGenerator.Genereate(message.Length);
         

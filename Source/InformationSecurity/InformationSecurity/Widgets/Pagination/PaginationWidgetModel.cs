@@ -18,7 +18,9 @@ public class PaginationWidgetModel : ViewModelBase
     private int _pageIndex;
     
     public PaginationWidgetModel()
-    {   
+    {
+        HeaderText = "Let's encrypt.";
+        
         PageIndex = 0;
         Pages = [
             new CryptographyWidgetModel( 
@@ -55,6 +57,7 @@ public class PaginationWidgetModel : ViewModelBase
         );
     }
     
+    public string HeaderText { get; } 
     public ViewModelBase[] Pages { get; set; }
     public ViewModelBase? SelectedPage => Pages.ElementAtOrDefault(PageIndex);
     public ObservableCollection<int> PageIndexes { get; set; }

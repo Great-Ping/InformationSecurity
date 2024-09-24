@@ -11,6 +11,12 @@
 	x:CompileBindings="True">
 
 	<StackPanel>
+		<TextBlock 
+			Classes="Header" 
+			TextAlignment="Center"
+			Text="{ Binding HeaderText }"
+		/>
+		
 		<Grid ColumnDefinitions="Auto, *, Auto">
 			
 			<Button 
@@ -61,6 +67,11 @@
 	</StackPanel>
 	
 	<UserControl.Styles>
+		<Style Selector="TextBlock.Header">
+			<Setter Property="FontSize" Value="24"/>
+			<Setter Property="FontWeight" Value="SemiBold"/>
+		</Style>				
+		
 		<Style Selector="ListBox.PageIndexes">
 			<Setter Property="Background" Value="Transparent"/>
 		</Style>

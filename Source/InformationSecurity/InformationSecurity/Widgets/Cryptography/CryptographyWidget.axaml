@@ -16,12 +16,6 @@
 		Orientation="Vertical" 
 	    VerticalAlignment="Stretch">
 		
-		<TextBlock 
-			Classes="Header" 
-		    TextAlignment="Center"
-		    Text="{ Binding HeaderText }"
-			/>
-		
 		<TextBox 
 			Classes="UserInput"
 		    Watermark="{ Binding InputWatermark }"
@@ -51,15 +45,6 @@
 	    <Style Selector="StackPanel.WidgetContent > :is(Control)">
 	        <Setter Property="Margin" Value="10 10"/>
 	    </Style>
-	
-		<Style Selector="TextBlock.Header">
-			<Setter Property="FontSize" Value="24"/>
-			<Setter Property="FontWeight" Value="SemiBold"/>
-		</Style>				
-		
-		<Style Selector="TextBlock.Label">
-			<Setter Property="FontSize" Value="18"/>
-		</Style>
 
 		<Style Selector="TextBox.UserInput">
 			<Setter Property="Width" Value="500"/>

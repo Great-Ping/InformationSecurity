@@ -25,7 +25,6 @@ public class CryptographyWidgetModel: ViewModelBase
         _cryptographer = cryptographer;
         _userInput = String.Empty;  
         
-        HeaderText = "Let's encrypt";
         InputWatermark= $"Введите сообщение\n{_cryptographer}";
         
             
@@ -33,7 +32,6 @@ public class CryptographyWidgetModel: ViewModelBase
         DecryptCommand = ReactiveCommand.Create(OnDecrypt);
     }
 
-    public string HeaderText { get; } 
     public string InputWatermark { get; }
     public string? Exception
     {
