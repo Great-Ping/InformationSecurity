@@ -3,10 +3,10 @@ using System.Security.Cryptography;
 namespace InformationSecurity.Cryptography.Gamma;
 
 public class PseudorandomNumbersGenerator(    
-    NumbersGeneratorConfig config
+    NumbersGeneratorOptions options
 ) { 
     private int[]? _randomNumbers = null;
-    public NumbersGeneratorConfig Config { get; } = config;
+    public NumbersGeneratorOptions Options { get; } = options;
 
     public ReadOnlySpan<int> Genereate(int messageLength)
     {
@@ -16,12 +16,12 @@ public class PseudorandomNumbersGenerator(
         }
 
         int[] randomNumbers = new int[messageLength];
-        randomNumbers[0] = Config.InitialT;
+        randomNumbers[0] = Options.InitialT;
 
         for (int i = 1; i < messageLength; i++)
         {
             randomNumbers[i] =
-                (Config.ConstantA * randomNumbers[i - 1] + Config.ConstantC) % Config.WordLen;
+                (Options.ConstantA * randomNumbers[i - 1] + Options.ConstantC) % Options.WordLen;
         }   
         
         _randomNumbers = randomNumbers;

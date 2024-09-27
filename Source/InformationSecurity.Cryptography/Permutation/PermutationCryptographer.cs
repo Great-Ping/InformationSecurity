@@ -2,25 +2,23 @@ namespace InformationSecurity.Cryptography.Permutation;
 
 
 //Лаба 2, перестановками
-public class PermutationCryptographer : ICryptographer
+public class PermutationCryptographer 
+    : ICryptographer, IConfigurable<PermutationOptions>
 {
-    private readonly int[] _permutations;
-    private readonly int[] _reversedPermutations;
-
-    public PermutationCryptographer(int[] permutations)
+    public PermutationOptions Options { get; private set; } = PermutationOptions.Default;
+    public void UpdateOptions(PermutationOptions options)
     {
-        _permutations = permutations;
-        _reversedPermutations = PermutationHelper.GenerateReversedPermutations(_permutations);
+        ArgumentNullException.ThrowIfNull(options);
+        Options = options;
     }
-
     public char[] Encrypt(ReadOnlySpan<char> message)
     {
-        return Process(message, _permutations);
+        return Process(message, Options.Permutations);
     }
 
     public char[] Decrypt(ReadOnlySpan<char> encrypted)
     {
-        return Process(encrypted, _reversedPermutations);
+        return Process(encrypted, Options.Reverse);
     }
 
 
@@ -53,6 +51,7 @@ public class PermutationCryptographer : ICryptographer
 
     public override string ToString()
     {
-        return $"PermutationCryptographer(permutations: [{String.Join(',', _permutations)}])";
+        return $"PermutationCryptographer {{ Options = {Options} }}";
     }
+
 }

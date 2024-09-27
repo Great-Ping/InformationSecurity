@@ -24,20 +24,13 @@ public class PaginationWidgetModel : ViewModelBase
         PageIndex = 0;
         Pages = [
             new CryptographyWidgetModel( 
-                new SubstitutionCryptographer("01234", 2) 
+                new SubstitutionCryptographer() 
             ), 
             new CryptographyWidgetModel( 
-                new PermutationCryptographer([0, 5, 4, 3, 2, 1])
+                new PermutationCryptographer()
             ),
             new CryptographyWidgetModel( 
-                new GammaCryptographer(
-                    new NumbersGeneratorConfig(
-                        ConstantA: 13,
-                        ConstantC: 43,
-                        InitialT: 37,
-                        WordLen: Char.MaxValue
-                    )
-                )
+                new GammaCryptographer()
             )
         ];
         PageIndexes = new ObservableCollection<int>(Enumerable.Range(1, Pages.Length));
