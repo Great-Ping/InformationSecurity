@@ -3,7 +3,7 @@ namespace InformationSecurity.Cryptography.Permutation;
 
 //Лаба 2, перестановками
 public class PermutationCryptographer 
-    : ICryptographer, IConfigurable<PermutationOptions>
+    : ICryptographer<PermutationOptions>
 {
     public PermutationOptions Options { get; private set; } = PermutationOptions.Default;
     public void UpdateOptions(PermutationOptions options)

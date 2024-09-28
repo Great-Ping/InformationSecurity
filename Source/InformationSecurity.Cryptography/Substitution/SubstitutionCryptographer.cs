@@ -9,7 +9,7 @@ namespace InformationSecurity.Cryptography;
 /// Лаба 1 V = {0,1,2,3,4} m = 2
 /// </summary>
 public class SubstitutionCryptographer 
-    : ICryptographer, IConfigurable<SubstitutionOptions>
+    : ICryptographer<SubstitutionOptions>
 {
     public SubstitutionOptions Options { get; private set; } = SubstitutionOptions.Default;
     public void UpdateOptions(SubstitutionOptions options)

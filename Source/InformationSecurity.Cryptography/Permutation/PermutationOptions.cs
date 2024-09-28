@@ -1,20 +1,23 @@
+using System.Text.Json.Serialization;
+
 namespace InformationSecurity.Cryptography.Permutation;
 
-public record PermutationOptions(
-    int[] Permutations,
-    int[] Reverse
-)
+public class PermutationOptions(int[] permutations)
 {
     public static PermutationOptions Default { get; }
+    public int[] Permutations { get; } = permutations;
 
+    [JsonIgnore]
+    public int[] Reverse { get; } = PermutationHelper.GenerateReversedPermutations(permutations);
+    
+    
     static PermutationOptions()
     {
-        int[] permutations = [1,2,3,4,0];
-        int[] reversedPermutations = PermutationHelper.GenerateReversedPermutations(permutations);
-
+        int[] permutations = Enumerable.Range(0, 5).ToArray();
+        Random.Shared.Shuffle(permutations);
+        
         Default = new PermutationOptions(
-            permutations,
-            reversedPermutations
+            permutations
         );
     }
 };

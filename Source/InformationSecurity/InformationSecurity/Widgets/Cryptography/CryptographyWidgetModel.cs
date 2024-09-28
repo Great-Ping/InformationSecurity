@@ -1,38 +1,54 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Avalonia.Input;
 using InformationSecurity.Cryptography;
-using InformationSecurity.Cryptography.Permutation;
 using InformationSecurity.Shared;
 using ReactiveUI;
 
 namespace InformationSecurity.Widgets.Cryptography;
 
-public class CryptographyWidgetModel: ViewModelBase
+public class CryptographyWidgetModel<T>: ViewModelBase, ICryptographyWidgetModel
 {
     private string _userInput;
+    private string _optionsInput;
     private string? _exception;
-    private readonly ICryptographer _cryptographer;
+    private bool _hasChanges;
+    private readonly ICryptographer<T> _cryptographer;
+    private readonly JsonSerializerOptions _serializerOptions;
     
     //_cryptographer = new SubstitutionCryptographer("01234", 2);
     //_cryptographer = new PermutationCryptographer([0, 5, 2, 3, 4, 1]);
         
-    public CryptographyWidgetModel(ICryptographer cryptographer) {
+    public CryptographyWidgetModel(ICryptographer<T> cryptographer) {
         _cryptographer = cryptographer;
-        _userInput = String.Empty;  
+        _userInput = String.Empty; 
+        _hasChanges = false;
+        _serializerOptions = new JsonSerializerOptions()
+        {
+            WriteIndented = true,  
+        };
+        _optionsInput = JsonSerializer.Serialize(cryptographer.Options, _serializerOptions);
         
-        InputWatermark= $"Введите сообщение\n{_cryptographer}";
+        InputWatermark= $"Введите сообщение\n";
         
-            
         EncryptCommand = ReactiveCommand.Create(OnEncrypt); 
         DecryptCommand = ReactiveCommand.Create(OnDecrypt);
     }
 
     public string InputWatermark { get; }
+
+    public string OptionsInput
+    {
+        get => _optionsInput;
+        set
+        {
+            _hasChanges = true;
+            this.RaiseAndSetIfChanged(ref _optionsInput, value);
+        }
+    }
+
     public string? Exception
     {
         get => _exception;
@@ -47,11 +63,32 @@ public class CryptographyWidgetModel: ViewModelBase
 
     public ICommand EncryptCommand { get; }
     public ICommand DecryptCommand { get; }
-    
+
+    private void UpdateOptionsIfChanged()
+    {
+        if (!_hasChanges)
+        {
+            return;
+        }
+        _hasChanges = false;
+        
+        T? options = JsonSerializer.Deserialize<T>(_optionsInput, _serializerOptions);
+
+        if (options == null)
+        {
+            throw new InvalidDataException("Options not serialized");
+        }
+
+        _cryptographer.UpdateOptions(options);
+
+    }
+
     private Task OnEncrypt()
     {
         try
         {
+            UpdateOptionsIfChanged();
+            
             ReadOnlySpan<char> encrypted = _cryptographer.Encrypt(UserInput);
             UserInput = new string(encrypted);
             Exception = null;
@@ -67,6 +104,8 @@ public class CryptographyWidgetModel: ViewModelBase
     {
         try
         {
+            UpdateOptionsIfChanged();
+            
             ReadOnlySpan<char> encrypted = _cryptographer.Decrypt(UserInput);
             UserInput = new string(encrypted);
             Exception = null;

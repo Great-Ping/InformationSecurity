@@ -23,13 +23,13 @@ public class PaginationWidgetModel : ViewModelBase
         
         PageIndex = 0;
         Pages = [
-            new CryptographyWidgetModel( 
+            new CryptographyWidgetModel<SubstitutionOptions>( 
                 new SubstitutionCryptographer() 
             ), 
-            new CryptographyWidgetModel( 
+            new CryptographyWidgetModel<PermutationOptions>( 
                 new PermutationCryptographer()
             ),
-            new CryptographyWidgetModel( 
+            new CryptographyWidgetModel<NumbersGeneratorOptions>( 
                 new GammaCryptographer()
             )
         ];

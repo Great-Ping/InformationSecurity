@@ -6,9 +6,7 @@
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 	
 	xmlns:pc="using:InformationSecurity.Pages.Cryptography"
-	xmlns:wc="using:InformationSecurity.Widgets.Cryptography"
-	xmlns:sp="using:InformationSecurity.Shared.Pagination"
-	xmlns:pagination="clr-namespace:InformationSecurity.Widgets.Pagination"
+	xmlns:wp="using:InformationSecurity.Widgets.Pagination"
 
 	x:Class="InformationSecurity.Pages.Cryptography.CryptographyPage"
 	x:DataType="pc:CryptographyPageModel"
@@ -17,9 +15,14 @@
 
 	<Grid RowDefinitions="*,Auto,*" 
 	      ColumnDefinitions="*,Auto,*">
-		<pagination:PaginationWidget 
-			DataContext="{Binding Pages}"
+		
+		<ScrollViewer 
 			Grid.Row="1" 
-			Grid.Column="1"/>
+			Grid.Column="1">
+			
+			<wp:PaginationWidget 
+				DataContext="{Binding Pages}"/>
+		</ScrollViewer>
+		
 	</Grid>
 </UserControl>

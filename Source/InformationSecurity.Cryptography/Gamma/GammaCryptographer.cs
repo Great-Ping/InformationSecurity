@@ -5,7 +5,7 @@ namespace InformationSecurity.Cryptography.Gamma;
 
 //Лаба 3.
 public class GammaCryptographer
-    : ICryptographer, IConfigurable<NumbersGeneratorOptions>
+    : ICryptographer<NumbersGeneratorOptions>
 {
     private PseudorandomNumbersGenerator? _generator = null;
 

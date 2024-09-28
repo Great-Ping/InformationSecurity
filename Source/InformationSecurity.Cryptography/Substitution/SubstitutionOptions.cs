@@ -1,26 +1,40 @@
+using System.Text.Json.Serialization;
+
 namespace InformationSecurity.Cryptography;
 
-public record SubstitutionOptions(
-    string Alphabet,
-    int BlockSize,
-    string[] Chipers,
-    string[] Deciphers
-)
+public class SubstitutionOptions
 {
+    public SubstitutionOptions(string alphabet, int blockSize)
+        : this(
+            alphabet,
+            blockSize,
+            SubstitutionHelper.GenerateCiphers(alphabet, blockSize)
+        )
+    { }
+
+
+    public SubstitutionOptions(string alphabet, int blockSize, string[] chipers)
+    {
+        Alphabet = alphabet;
+        BlockSize = blockSize;
+        Chipers = chipers;
+        Deciphers = SubstitutionHelper.GenerateDeciphers(alphabet, blockSize, chipers);
+    }
+
+    public string Alphabet { get;  }
+    public int BlockSize { get; }
+    public string[] Chipers { get; }
+    [JsonIgnore] public string[] Deciphers { get; }
     public static SubstitutionOptions Default { get; }
 
     static SubstitutionOptions()
     {
         string alphabet = "01234";
         int blockSize = 2;
-        string[] chipers = SubstitutionHelper.GenerateCiphers(alphabet, blockSize);
-        string[] deciphers = SubstitutionHelper.GenerateDeciphers(alphabet, blockSize, chipers);
 
         Default = new SubstitutionOptions(
             alphabet,
-            blockSize,
-            chipers,
-            deciphers
+            blockSize
         );
     }
 };

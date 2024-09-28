@@ -8,7 +8,7 @@
 	xmlns:wc="using:InformationSecurity.Widgets.Cryptography"
              
 	x:Class="InformationSecurity.Widgets.Cryptography.CryptographyWidget"
-	x:DataType="wc:CryptographyWidgetModel"
+	x:DataType="wc:ICryptographyWidgetModel"
 	x:CompileBindings="True">
 	
 	<StackPanel 
@@ -21,6 +21,10 @@
 		    Watermark="{ Binding InputWatermark }"
 			Text="{ Binding UserInput}"/>
 		
+		<TextBox 
+			Classes="OptionsInput"
+			Text="{ Binding OptionsInput}"/>
+		
 		<StackPanel 
 			Classes="Buttons"
 			Orientation="Horizontal" 
@@ -32,7 +36,9 @@
 			<Button 
 				Command="{Binding DecryptCommand}"
 			    Content="Декодировать"/>
+			
 		</StackPanel>
+		
 		
 		<TextBlock
 			Classes="Exception"
@@ -46,12 +52,20 @@
 	        <Setter Property="Margin" Value="10 10"/>
 	    </Style>
 
-		<Style Selector="TextBox.UserInput">
+		<Style Selector="TextBox">
 			<Setter Property="Width" Value="500"/>
-			<Setter Property="MinHeight" Value="100" />
-			<Setter Property="MaxHeight" Value="300"/>
 			<Setter Property="TextWrapping" Value="Wrap"/>
 			<Setter Property="AcceptsReturn" Value="true"/>
+		</Style>
+		
+		<Style Selector="TextBox.UserInput">
+			<Setter Property="MinHeight" Value="100" />
+			<Setter Property="MaxHeight" Value="300"/>
+		</Style>
+		
+		<Style Selector="TextBox.OptionsInput">
+			<Setter Property="MinHeight" Value="100"/>
+			<Setter Property="MaxHeight" Value="200"/>
 		</Style>
 		
 		<Style Selector="TextBlock.Exception">
