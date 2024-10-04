@@ -1,0 +1,7 @@
+﻿<Solution>
+  <Folder Name="/AppUi/">
+    <Project Path="Source\InformationSecurity\InformationSecurity.Desktop\InformationSecurity.Desktop.csproj" Type="Classic C#" />
+    <Project Path="Source\InformationSecurity\InformationSecurity\InformationSecurity.csproj" Type="Classic C#" />
+  </Folder>
+  <Project Path="Source\InformationSecurity.Cryptography\InformationSecurity.Cryptography.csproj" Type="Classic C#" />
+</Solution>

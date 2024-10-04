@@ -9,8 +9,9 @@ public class PermutationOptions(int[] permutations)
 
     [JsonIgnore]
     public int[] Reverse { get; } = PermutationHelper.GenerateReversedPermutations(permutations);
-    
-    
+
+    [JsonIgnore] public char[] SpaceBuffer { get; } = new char[permutations.Length];
+
     static PermutationOptions()
     {
         int[] permutations = Enumerable.Range(0, 5).ToArray();

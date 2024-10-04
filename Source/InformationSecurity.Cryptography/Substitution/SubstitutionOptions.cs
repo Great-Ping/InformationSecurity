@@ -4,6 +4,8 @@ namespace InformationSecurity.Cryptography;
 
 public class SubstitutionOptions
 {
+    
+    
     public SubstitutionOptions(string alphabet, int blockSize)
         : this(
             alphabet,
@@ -12,7 +14,7 @@ public class SubstitutionOptions
         )
     { }
 
-
+    [JsonConstructor]
     public SubstitutionOptions(string alphabet, int blockSize, string[] chipers)
     {
         Alphabet = alphabet;
@@ -24,7 +26,8 @@ public class SubstitutionOptions
     public string Alphabet { get;  }
     public int BlockSize { get; }
     public string[] Chipers { get; }
-    [JsonIgnore] public string[] Deciphers { get; }
+    [JsonIgnore]
+    public string[] Deciphers { get; }
     public static SubstitutionOptions Default { get; }
 
     static SubstitutionOptions()

@@ -40,15 +40,16 @@ public static class SubstitutionHelper
     public static int FromAlphabet(ReadOnlySpan<char> alphabet, int blockSize, ReadOnlySpan<char> block)
     {
         int result = 0;
-        for (int i = 0; i < blockSize; i++)
+        for (int i = 0; i < blockSize; i ++)
         {
             int index = alphabet.IndexOf(block[i]);
             if (index == -1)
             {
                 throw new ArgumentException($"Symbol '{block[i]}' does not belong to alphabet");
             }
-            
-            result += index * PowInt(alphabet.Length,  i);
+
+            result += index * (int)Math.Pow(alphabet.Length, i);
+            // PowInt(alphabet.Length,  i);
         }
         return result;
     }
@@ -59,7 +60,7 @@ public static class SubstitutionHelper
         Span<char> convertedBlock = pool.AsSpan(0, blockSize);
         try
         {
-            for (int i = 0 ; i < blockSize; i++)
+            for (int i = 0; i < blockSize; i ++)
             {
                 int charIndex = blockValue % alphabet.Length;
                 convertedBlock[i] = alphabet[charIndex];
