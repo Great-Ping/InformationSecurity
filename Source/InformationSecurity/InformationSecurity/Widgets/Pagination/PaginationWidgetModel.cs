@@ -29,7 +29,7 @@ public class PaginationWidgetModel : ViewModelBase
             new CryptographyWidgetModel<PermutationOptions>( 
                 new PermutationCryptographer()
             ),
-            new CryptographyWidgetModel<NumbersGeneratorOptions>( 
+            new CryptographyWidgetModel<GammaCryptographerOptions>( 
                 new GammaCryptographer()
             )
         ];

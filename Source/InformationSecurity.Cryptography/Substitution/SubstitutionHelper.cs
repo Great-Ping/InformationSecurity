@@ -48,8 +48,7 @@ public static class SubstitutionHelper
                 throw new ArgumentException($"Symbol '{block[i]}' does not belong to alphabet");
             }
 
-            result += index * (int)Math.Pow(alphabet.Length, i);
-            // PowInt(alphabet.Length,  i);
+            result += index *PowInt(alphabet.Length,  i);
         }
         return result;
     }
