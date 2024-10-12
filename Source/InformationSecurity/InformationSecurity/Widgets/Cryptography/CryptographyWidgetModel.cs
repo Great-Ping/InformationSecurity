@@ -32,9 +32,13 @@ public class CryptographyWidgetModel<T>: ViewModelBase, ICryptographyWidgetModel
         _optionsInput = JsonSerializer.Serialize(cryptographer.Options, _serializerOptions);
         
         InputWatermark= $"Введите сообщение\n";
-        
         EncryptCommand = ReactiveCommand.Create(OnEncrypt); 
         DecryptCommand = ReactiveCommand.Create(OnDecrypt);
+
+        _cryptographer.OptionsChanged += (T newOptions) =>
+        {
+            OptionsInput = JsonSerializer.Serialize(newOptions, _serializerOptions);
+        };
     }
 
     public string InputWatermark { get; }
@@ -71,15 +75,21 @@ public class CryptographyWidgetModel<T>: ViewModelBase, ICryptographyWidgetModel
             return;
         }
         _hasChanges = false;
-        
-        T? options = JsonSerializer.Deserialize<T>(_optionsInput, _serializerOptions);
 
-        if (options == null)
+        try
         {
-            throw new InvalidDataException("Options not serialized");
-        }
+            T? options = JsonSerializer.Deserialize<T>(_optionsInput, _serializerOptions);
 
-        _cryptographer.UpdateOptions(options);
+            if (options is null)
+            {
+                throw new ArgumentNullException("Options is null");
+            }
+            _cryptographer.UpdateOptions(options);
+        }
+        catch (Exception e)
+        {
+            throw new InvalidDataException("Invalid options");
+        }
 
     }
 

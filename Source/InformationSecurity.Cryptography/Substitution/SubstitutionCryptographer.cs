@@ -8,23 +8,21 @@ namespace InformationSecurity.Cryptography;
 /// <summary>
 /// Лаба 1 V = {0,1,2,3,4} m = 2
 /// </summary>
-public class SubstitutionCryptographer 
-    : ICryptographer<SubstitutionOptions>
+public class SubstitutionCryptographer
+    : BaseCryptographer<SubstitutionOptions>
 {
-    public SubstitutionOptions Options { get; private set; } = SubstitutionOptions.Default;
-    public void UpdateOptions(SubstitutionOptions options)
+    public SubstitutionCryptographer()
+        : base(SubstitutionOptions.Default)
     {
-        ArgumentNullException.ThrowIfNull(options);
-        Options = options;
     }
 
-    public char[] Encrypt(ReadOnlySpan<char> message)
+    public override char[] Encrypt(ReadOnlySpan<char> message)
     {
         return Process(message, Options.Alphabet, Options.BlockSize, Options.Chipers);
     }
 
 
-    public char[] Decrypt(ReadOnlySpan<char> encrypted)
+    public override char[] Decrypt(ReadOnlySpan<char> encrypted)
     {
         return Process(encrypted, Options.Alphabet, Options.BlockSize, Options.Deciphers);
     }

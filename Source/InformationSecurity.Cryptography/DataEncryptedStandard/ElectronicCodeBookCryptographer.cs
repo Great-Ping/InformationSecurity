@@ -1,18 +1,20 @@
 namespace InformationSecurity.Cryptography.DataEncryptedStandard;
 
-public class ElectronicCodeBookCryptographer: ICryptographer<object>
+public class ElectronicCodeBookCryptographer
+    : BaseCryptographer<object>
 {
-    public object Options { get; }
-    public void UpdateOptions(object options)
+
+    public ElectronicCodeBookCryptographer()
+        : base(new object())
     {
-        throw new NotImplementedException();
     }
-    public char[] Encrypt(ReadOnlySpan<char> message)
+
+    public override char[] Encrypt(ReadOnlySpan<char> message)
     {
         throw new NotImplementedException();
     }
 
-    public char[] Decrypt(ReadOnlySpan<char> encrypted)
+    public override char[] Decrypt(ReadOnlySpan<char> encrypted)
     {
         throw new NotImplementedException();
     }

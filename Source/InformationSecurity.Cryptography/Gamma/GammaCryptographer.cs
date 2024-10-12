@@ -4,20 +4,28 @@ namespace InformationSecurity.Cryptography.Gamma;
 
 
 //Лаба 3.
-public class GammaCryptographer
-    : ICryptographer<NumbersGeneratorOptions>
+public class GammaCryptographer 
+    : BaseCryptographer<NumbersGeneratorOptions>
 {
     private PseudorandomNumbersGenerator? _generator = null;
 
-    public NumbersGeneratorOptions Options { get; private set; } = NumbersGeneratorOptions.Default;
-    public void UpdateOptions(NumbersGeneratorOptions options)
+    public GammaCryptographer()
+        : base(NumbersGeneratorOptions.Default)
     {
-        ArgumentNullException.ThrowIfNull(options);
-        
-        Options = options;
     }
 
-    public char[] Encrypt(ReadOnlySpan<char> message)
+    public override char[] Encrypt(ReadOnlySpan<char> message)
+    {
+        return Process(message);
+    }
+
+    public override char[] Decrypt(ReadOnlySpan<char> encrypted)
+    {
+        return Process(encrypted);
+    }
+
+
+    private char[] Process(ReadOnlySpan<char> message)
     {
         PseudorandomNumbersGenerator currentGenerator = SelectGenerator();
         ReadOnlySpan<int> numbers = currentGenerator.Genereate(message.Length);
@@ -26,34 +34,11 @@ public class GammaCryptographer
 
         for (int i = 0; i < message.Length; i++)
         {
-            int newChar = (message[i] + numbers[i]) % Options.WordLen;
-
+            int newChar =  message[i] ^ numbers[i];
             result[i] = Convert.ToChar(newChar);
         }
-
-        return result;
-    }
-
-    public char[] Decrypt(ReadOnlySpan<char> encrypted)
-    {
-        PseudorandomNumbersGenerator currentGenerator = SelectGenerator();
-        ReadOnlySpan<int> numbers = currentGenerator.Genereate(encrypted.Length);
         
-        char[] result = new char[encrypted.Length];
-
-        for (int i = 0; i < encrypted.Length; i++)
-        {
-            int newChar = (encrypted[i] - numbers[i]) % Options.WordLen;
-
-            if (newChar < 0)
-            {
-                newChar = newChar + Options.WordLen;
-            }
-          
-            result[i] = Convert.ToChar(newChar);
-        }
-
-        return result;
+        return result;        
     }
 
     private PseudorandomNumbersGenerator SelectGenerator()

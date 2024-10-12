@@ -3,28 +3,22 @@ namespace InformationSecurity.Cryptography.Permutation;
 
 //Лаба 2, перестановками
 public class PermutationCryptographer 
-    : ICryptographer<PermutationOptions>
+    : BaseCryptographer<PermutationOptions>
 {
     
     private readonly char _separator;
     public PermutationCryptographer(char separator = ' ')
+        :base(PermutationOptions.Default)
     {
-        Options = PermutationOptions.Default;
         _separator = separator;
     }
-
-    public PermutationOptions Options { get; private set; }
-    public void UpdateOptions(PermutationOptions options)
-    {
-        ArgumentNullException.ThrowIfNull(options);
-        Options = options;
-    }
-    public char[] Encrypt(ReadOnlySpan<char> message)
+    
+    public override char[] Encrypt(ReadOnlySpan<char> message)
     {
         return Process(message, Options.Permutations);
     }
 
-    public char[] Decrypt(ReadOnlySpan<char> encrypted)
+    public override char[] Decrypt(ReadOnlySpan<char> encrypted)
     {
         return Process(encrypted, Options.Reverse);
     }

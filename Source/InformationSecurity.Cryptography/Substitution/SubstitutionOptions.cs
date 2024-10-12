@@ -5,22 +5,13 @@ namespace InformationSecurity.Cryptography;
 public class SubstitutionOptions
 {
     
-    
-    public SubstitutionOptions(string alphabet, int blockSize)
-        : this(
-            alphabet,
-            blockSize,
-            SubstitutionHelper.GenerateCiphers(alphabet, blockSize)
-        )
-    { }
-
     [JsonConstructor]
-    public SubstitutionOptions(string alphabet, int blockSize, string[] chipers)
+    public SubstitutionOptions(string alphabet, int blockSize, string[]? chipers = null)
     {
         Alphabet = alphabet;
         BlockSize = blockSize;
-        Chipers = chipers;
-        Deciphers = SubstitutionHelper.GenerateDeciphers(alphabet, blockSize, chipers);
+        Chipers = chipers ?? SubstitutionHelper.GenerateCiphers(alphabet, blockSize);
+        Deciphers = SubstitutionHelper.GenerateDeciphers(alphabet, blockSize, Chipers);
     }
 
     public string Alphabet { get;  }
