@@ -38,6 +38,7 @@ public class CryptographyWidgetModel<T>: ViewModelBase, ICryptographyWidgetModel
         _cryptographer.OptionsChanged += (T newOptions) =>
         {
             OptionsInput = JsonSerializer.Serialize(newOptions, _serializerOptions);
+            _hasChanges = false;
         };
     }
 
@@ -74,7 +75,6 @@ public class CryptographyWidgetModel<T>: ViewModelBase, ICryptographyWidgetModel
         {
             return;
         }
-        _hasChanges = false;
 
         try
         {
@@ -85,12 +85,12 @@ public class CryptographyWidgetModel<T>: ViewModelBase, ICryptographyWidgetModel
                 throw new ArgumentNullException("Options is null");
             }
             _cryptographer.UpdateOptions(options);
+            _hasChanges = false;
         }
         catch (Exception e)
         {
-            throw new InvalidDataException("Invalid options");
+            throw new InvalidDataException("Invalid options", e);
         }
-
     }
 
     private Task OnEncrypt()

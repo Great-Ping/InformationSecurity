@@ -5,6 +5,7 @@ using System.Reactive;
 using System.Reflection.Metadata;
 using System.Windows.Input;
 using InformationSecurity.Cryptography;
+using InformationSecurity.Cryptography.DataEncryptedStandard;
 using InformationSecurity.Cryptography.Gamma;
 using InformationSecurity.Cryptography.Permutation;
 using InformationSecurity.Shared;
@@ -31,6 +32,9 @@ public class PaginationWidgetModel : ViewModelBase
             ),
             new CryptographyWidgetModel<GammaCryptographerOptions>( 
                 new GammaCryptographer()
+            ),
+            new CryptographyWidgetModel<object>( 
+                new ElectronicCodeBookCryptographer()
             )
         ];
         PageIndexes = new ObservableCollection<int>(Enumerable.Range(1, Pages.Length));
@@ -38,7 +42,6 @@ public class PaginationWidgetModel : ViewModelBase
         IncrementPageCommand = ReactiveCommand.Create(OnIncrementPage);
         DecrementPageCommand = ReactiveCommand.Create(OnDecrementPage);
         SelectPageCommand = ReactiveCommand.Create<int>(OnSelectPage);
-        
         
         this.WhenAnyValue(x => x.PageIndex)
             .Subscribe(

@@ -31,7 +31,7 @@
 				Grid.Column="1"
 				SelectedIndex="{Binding PageIndex, Mode=TwoWay}"
 				ItemsSource="{Binding PageIndexes}">
-
+				
 				<ListBox.ItemsPanel>
 					<ItemsPanelTemplate>
 						<StackPanel Orientation="Horizontal"/>
@@ -73,12 +73,22 @@
 		</Style>				
 		
 		<Style Selector="ListBox.PageIndexes">
+			<Setter Property="Padding" Value="5 0"/>
 			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="MaxWidth" Value="500"/>
+		</Style>
+		
+		<Style Selector="ListBox.PageIndexes /template/ ScrollViewer">
+			<Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
 		</Style>
 		
 		<Style Selector="ListBoxItem">
 			<Setter Property="Padding" Value="0"/>
-			<Setter Property="Margin" Value="5"/>
+			<Setter Property="Margin" Value="0  0 5 0"/>
+		</Style>
+		
+		<Style Selector="ListBox.PageIndexes:nth-last-child(0)">
+			<Setter Property="Margin" Value="0"/>
 		</Style>
 		
 		<Style Selector="ListBoxItem:selected /template/ ContentPresenter">
