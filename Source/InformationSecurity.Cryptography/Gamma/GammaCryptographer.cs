@@ -3,7 +3,6 @@ using System.Reflection;
 namespace InformationSecurity.Cryptography.Gamma;
 
 
-
 //Лаба 3.
 public class GammaCryptographer 
     : BaseCryptographer<GammaCryptographerOptions>
@@ -58,7 +57,7 @@ public class GammaCryptographer
         int lastNumber = initialNumber;
         
         char[] result = new char[message.Length];
-
+        
         int i = 0;
         foreach (int number in numbers)
         {

@@ -33,7 +33,7 @@ public class PaginationWidgetModel : ViewModelBase
             new CryptographyWidgetModel<GammaCryptographerOptions>( 
                 new GammaCryptographer()
             ),
-            new CryptographyWidgetModel<object>( 
+            new CryptographyWidgetModel<ElectronicCodeBookCryptographerOptions>( 
                 new ElectronicCodeBookCryptographer()
             )
         ];
