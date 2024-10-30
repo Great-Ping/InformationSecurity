@@ -5,15 +5,15 @@ using System.Text;
 
 using static InformationSecurity.Cryptography.DataEncryptedStandard.DesHelper;
 
-namespace InformationSecurity.Cryptography.DataEncryptedStandard;
+namespace InformationSecurity.Cryptography.DataEncryptedStandard.ElectronicCodeBookCryptographer;
 
 public class ElectronicCodeBookCryptographer
     : BaseCryptographer<ElectronicCodeBookCryptographerOptions>
 {
     private readonly Encoding _encoding;
 
-    
-    public ElectronicCodeBookCryptographer() 
+
+    public ElectronicCodeBookCryptographer()
         : base(ElectronicCodeBookCryptographerOptions.Default)
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -23,7 +23,7 @@ public class ElectronicCodeBookCryptographer
     public override char[] Encrypt(ReadOnlySpan<char> message)
     {
         return Process(
-            message, 
+            message,
             Options.DataEncryptedStandard,
             Options.FeistelKeys,
             0,
@@ -34,7 +34,7 @@ public class ElectronicCodeBookCryptographer
     public override char[] Decrypt(ReadOnlySpan<char> encrypted)
     {
         return Process(
-            encrypted, 
+            encrypted,
             Options.DataEncryptedStandard.Reverse(),
             Options.FeistelKeys.Reverse(),
             BlockSizeBytes / 2,
@@ -43,57 +43,58 @@ public class ElectronicCodeBookCryptographer
     }
 
     private char[] Process(
-        ReadOnlySpan<char> message, 
+        ReadOnlySpan<char> message,
         DataEncryptedStandardOptions desOptions,
         IEnumerable<byte[]> feistelKeys,
         int leftStart,
         int rightStart
-    ){
-        
+    )
+    {
+
         int messageByteCount = _encoding.GetByteCount(message);
-        
+
         //Подсчитываем выравнивание буффера
         int wholeBlocksCount = messageByteCount / BlockSizeBytes;
         bool hasRemainder = messageByteCount % BlockSizeBytes != 0;
-        
-        int messageBufferLength = (hasRemainder) 
+
+        int messageBufferLength = hasRemainder
             ? (wholeBlocksCount + 1) * BlockSizeBytes
             : messageByteCount;
 
         //Общий буффер, на все случаи жизни
         byte[] commonBuffer = new byte[
-            messageBufferLength 
+            messageBufferLength
             + BlockSizeBytes * 2
         ];
-        
+
         Span<byte> messageBuffer = commonBuffer.AsSpan(0, messageBufferLength);
         Span<byte> originalBlockBuffer = commonBuffer.AsSpan(messageBufferLength, BlockSizeBytes);
         int newBlockBufferStart = messageBufferLength + BlockSizeBytes;
-        
+
 
         //Первые байты заполняем нулями
         int usefulBitsStart = messageBufferLength - messageByteCount;
         messageBuffer
             .Slice(0, usefulBitsStart)
             .Fill(0);
-        
+
         _encoding.GetBytes(
-            message, 
+            message,
             messageBuffer.Slice(
-                usefulBitsStart, 
+                usefulBitsStart,
                 messageByteCount
             )
         );
-            
-        
+
+
         for (int i = 0; i < message.Length; i += BlockSizeBytes)
         {
             Span<byte> newBlockBuffer = commonBuffer.AsSpan(i, originalBlockBuffer.Length);
             //Перезапишем буффер для байт сообщения 
             //Т.к. в результате хранятся байты исходной строки
             newBlockBuffer.CopyTo(originalBlockBuffer);
-                
-            DesHelper.BlockEncryptionProcess(
+
+            BlockEncryptionProcess(
                 originalBlockBuffer,
                 newBlockBuffer,
                 desOptions,
@@ -107,7 +108,8 @@ public class ElectronicCodeBookCryptographer
 
         //Затираем начальные нули
         int zerosCount = 0;
-        while (messageBuffer[zerosCount] == 0) {
+        while (messageBuffer[zerosCount] == 0)
+        {
             zerosCount++;
         }
 
@@ -119,8 +121,7 @@ public class ElectronicCodeBookCryptographer
         _encoding.GetChars(result, response);
 
         return response;
-        
+
     }
-    
 
 }

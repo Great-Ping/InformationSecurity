@@ -1,15 +1,15 @@
 using System.Text.Json.Serialization;
 
-namespace InformationSecurity.Cryptography.DataEncryptedStandard;
+namespace InformationSecurity.Cryptography.DataEncryptedStandard.ElectronicCodeBookCryptographer;
 
 public class ElectronicCodeBookCryptographerOptions
 {
-    
+
     [JsonConstructor]
     public ElectronicCodeBookCryptographerOptions(byte[] key)
     {
         Key = key;
-        DataEncryptedStandard = DataEncryptedStandardOptions.Default; 
+        DataEncryptedStandard = DataEncryptedStandardOptions.Default;
         FeistelKeys = DesHelper.PrepareFeistelKeys(key, DataEncryptedStandard);
     }
 
@@ -26,9 +26,9 @@ public class ElectronicCodeBookCryptographerOptions
             0b11001101
         ]
     );
-    
+
     public byte[] Key { get; }
-    
+
     [JsonIgnore]
     public IEnumerable<byte[]> FeistelKeys;
     [JsonIgnore]

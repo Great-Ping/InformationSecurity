@@ -4,12 +4,15 @@ using System.Linq;
 using System.Reactive;
 using System.Reflection.Metadata;
 using System.Windows.Input;
+
 using InformationSecurity.Cryptography;
 using InformationSecurity.Cryptography.DataEncryptedStandard;
+using InformationSecurity.Cryptography.DataEncryptedStandard.ElectronicCodeBookCryptographer;
 using InformationSecurity.Cryptography.Gamma;
 using InformationSecurity.Cryptography.Permutation;
 using InformationSecurity.Shared;
 using InformationSecurity.Widgets.Cryptography;
+
 using ReactiveUI;
 
 namespace InformationSecurity.Widgets.Pagination;
